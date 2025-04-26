@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
@@ -90,4 +89,72 @@
       }
       100% {
         transform: translateY(-500px) rotate(45deg);
-        opacity: 0
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <img id="dog" class="dog-img" src="img1.jpeg" alt="dog">
+  <h1 id="main-text">我要把全部人生都给你！</h1>
+  <p id="sub-text">收下好不好？</p>
+  <div class="buttons">
+    <button id="acceptBtn" onclick="accept()">收下</button>
+    <button id="rejectBtn" onclick="reject()">再想想</button>
+  </div>
+
+  <script>
+    let rejectCount = 0;
+    const acceptBtn = document.getElementById('acceptBtn');
+    const rejectBtn = document.getElementById('rejectBtn');
+    const dogImg = document.getElementById('dog');
+    const mainText = document.getElementById('main-text');
+    const subText = document.getElementById('sub-text');
+
+    const images = [
+      "img1.jpeg", "img1.jpeg", "img2.jpeg", "img2.jpeg", "img2.jpeg", "img3.jpeg"
+    ];
+
+    const texts = [
+      "小祥......",
+      "果然还是不可以吗",
+      "不要讨厌我...",
+      "我会在这里一直等着你",
+      "没关系，即便如此我也会陪在你身边"
+    ];
+
+    function reject() {
+      rejectCount++;
+      let scale = 1 + rejectCount * 0.6;
+      if (scale > 5) scale = 5;
+      acceptBtn.style.transform = `scale(${scale})`;
+
+      if (rejectCount >= 5) {
+        rejectBtn.style.display = 'none'; // 第五次点击后隐藏“再想想”按钮
+      }
+
+      if (rejectCount >= 5) rejectCount = 5;
+
+      dogImg.src = images[rejectCount - 1];
+      subText.innerText = texts[rejectCount - 1] || "没关系，即便如此我也会陪在你身边";
+    }
+
+    function accept() {
+      dogImg.src = images[5];
+      mainText.innerText = "你收下了！";
+      subText.innerText = "最喜欢你了！";
+      alert('你终于收下啦！好开心！');
+    }
+
+    setInterval(() => {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * window.innerWidth + 'px';
+      document.body.appendChild(heart);
+      setTimeout(() => {
+        heart.remove();
+      }, 6000);
+    }, 500);
+  </script>
+</body>
+</html>
